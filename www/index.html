@@ -16,8 +16,23 @@
     function onDeviceReady() {
 
     }
-
-	function writeData(data){
+	function getImg(){
+		$.ajax({
+			url: "http://pram.homepc.it:5984/testdb/10ef83b61f50e210cfe82620ef0016a3?attachments=true",
+			headers: {
+					Authorization: 'Basic ' + btoa("pratesim:cou111Viola<3")
+			},
+			success: function(data){
+				var split = data.split("\r\n\r\n");
+				var imageData = split[2].split("\r\n--")[0];
+				var jsonData = split[1].split("\r\n--")[0];
+				var jsonObj = JSON.parse(jsonData);
+				writeData(imageData, ".jpeg");
+			}
+		});
+	}
+	
+	function writeData(data, extension){
 		//provo a salvare l'immagine in una cartella sul file system
       	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
       	// funzione chiamata in caso sia stato ottenuto un filesystem con successo
@@ -30,7 +45,7 @@
 			var d = new Date();
       		var n = d.getTime();
       		//new file name
-      		var newFileName = n + ".txt";
+      		var newFileName = n + extension;
       		/* crea un file con nome newFileName */
 			parent.getFile(newFileName, {create: true}, function(fileEntry){
 				console.log("file created with name: " + fileEntry.name);
@@ -84,6 +99,6 @@
     </script>
   </head>
   <body>
-	<button onclick='writeData("Write something in file");'>Write File</button>
+	<button onclick='getImg();'>Write File</button>
   </body>
 </html>
