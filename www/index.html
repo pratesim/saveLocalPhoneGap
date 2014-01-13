@@ -28,7 +28,17 @@
 				var jsonData = split[1].split("\r\n--")[0];
 				var jsonObj = JSON.parse(jsonData);
 				console.log(imageData);
-				writeData(str2ab(imageData), ".jpg");
+				var b = new Blob([data], {type: 'image/jpg'});
+				var url = URL.createObjectURL(b);
+				var reader = new FileReader();
+				
+				reader.addEventListener("loadend", function() {
+				   // reader.result contains the contents of blob as a typed array
+				   writeData(reader.result, ".jpg");
+				   console.log(reader.result);
+				});
+				reader.readAsBinaryString(b);
+				
 			}
 		});
 	}
