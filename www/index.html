@@ -4,11 +4,8 @@
     <title>Capture Photo</title>
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="Blob.js" type="text/javascript"></script>
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8">
-
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value
 
     // Wait for device API libraries to load
     //
@@ -25,39 +22,55 @@
       	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
       	// funzione chiamata in caso sia stato ottenuto un filesystem con successo
 		// creo una directory (se non esiste già) nella quale salvare l'immagine scattata dalla fotocamera
-		console.log("FileSystem ottenuto. Nome fileSystem: " + fileSystem.name);
+		console.log("FileSystem open with name: " + fileSystem.name);
       	fileSystem.root.getDirectory("saveLocal", {create: true}, function(parent){
       		// funzione chiamata in caso sia stato possibile creare la directory
 			// salvo l'immagine in questa dir
-			console.log("Directory aperta/creata");
+			console.log("Directory open/create");
 			var d = new Date();
       		var n = d.getTime();
       		//new file name
       		var newFileName = n + ".txt";
       		/* crea un file con nome newFileName */
-			fileSystem.root.getFile(newFileName, {create: true}, function(fileEntry){
-				console.log("creato file per contenere foto: " + fileEntry.name);
+			parent.getFile(newFileName, {create: true}, function(fileEntry){
+				console.log("file created with name: " + fileEntry.name);
 				
           		fileEntry.createWriter(function (writer){
           			writer.onwriteend = function (evt){
-				      console.log("Scrittura file completata");
+				      console.log("Write Completed");
           			};
 					writer.onerror = function (evt){
-						console.log("scrittura fallita");
-						console.log(evt.target.error);
+						console.log("write failed. Error: ");
+						console.log(evt.target.error.code);
 					};
 
           			writer.write(data);
           			
           			/*var b = new Blob(["Caro amico ti scrivo"], {type: "text/plain;charset=UTF-8"});*/
           		}, onWriterError);
-				fileEntry.moveTo(parent, newFileName, function(newFileEntry){
-					console.log("file salvato con nome: " + newFileEntry.name);
-				}, onMoveFileError);
-			}, onResolveError);
+			}, onGetFileFail);
       	}, onGetDirectoryFail);
       }, onFileSystemError);
-	}
+	};
+	
+	function onFileSystemError(error){
+		console.log("impossible open fileSystem. Error: ");
+		console.log(error.code);
+	};
+	
+	function onGetDirectoryFail(error){
+		console.log("Impossible open/create directory. Error: ");
+		console.log(error.code);
+	};
+	function onGetFileFail(error){
+		console.log("Impossible open/create file. Error: ");
+		console.log(error.code);
+	};
+	
+	function onWriterError(error){
+		console.log("Impossible open writer. Error: ");
+		console.log(error.code);
+	};
 	
 	function str2ab(str) {
 	  var buf = new ArrayBuffer(str.length);
@@ -70,6 +83,6 @@
     </script>
   </head>
   <body>
-	<button onclick='writeData("Sono riuscito a scrivere in un file");'>Scarica immagine da couchdb</button>
+	<button onclick='writeData("Write something in file");'>Write File</button>
   </body>
 </html>
