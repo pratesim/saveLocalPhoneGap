@@ -18,7 +18,7 @@
     }
 	function getImg(){
 		$.ajax({
-			url: "http://pram.homepc.it:5984/testdb/10ef83b61f50e210cfe82620ef0016a3?attachments=true",
+			url: "http://pram.homepc.it:5984/testdb/7d9de7a8f2cab6c0b3409d4495000e3f?attachments=true",
 			headers: {
 					Authorization: 'Basic ' + btoa("pratesim:cou111Viola<3")
 			},
@@ -27,7 +27,8 @@
 				var imageData = split[2].split("\r\n--")[0];
 				var jsonData = split[1].split("\r\n--")[0];
 				var jsonObj = JSON.parse(jsonData);
-				writeData(imageData, ".jpeg");
+				console.log(imageData);
+				writeData(str2ab(imageData), ".jpg");
 			}
 		});
 	}
