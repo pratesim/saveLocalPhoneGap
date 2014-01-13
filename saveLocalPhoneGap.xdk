@@ -1,0 +1,31 @@
+{
+  "project": {
+    "projectSettingsVersion": "1.0",
+    "creationData": {
+      "type": "Import",
+      "src": "C:\\Users\\Maurizio\\Documents\\Aptana Studio 3 Workspace\\saveLocalPhoneGap",
+      "projectGuid": "46eee889-5411-4223-87e2-5c765c795e00",
+      "lastModifiedDate": 1389626917191,
+      "creationDate": 1389626917151
+    },
+    "projectFiles": {},
+    "projectDirectories": {},
+    "libraries": [
+      {
+        "name": "Cordova",
+        "version": "2.9.0",
+        "data": {
+          "default": true
+        }
+      },
+      {
+        "name": "intelXDK",
+        "version": "4.0.0",
+        "data": {
+          "default": true
+        }
+      }
+    ],
+    "services": []
+  }
+}

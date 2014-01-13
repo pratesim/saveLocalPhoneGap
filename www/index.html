@@ -43,10 +43,11 @@
 						console.log("write failed. Error: ");
 						console.log(evt.target.error.code);
 					};
-
-          			writer.write(data);
+					
+					
+          			writer.write(str2ab(data));
           			
-          			/*var b = new Blob(["Caro amico ti scrivo"], {type: "text/plain;charset=UTF-8"});*/
+          			/**/
           		}, onWriterError);
 			}, onGetFileFail);
       	}, onGetDirectoryFail);
