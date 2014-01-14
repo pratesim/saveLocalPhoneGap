@@ -33,7 +33,8 @@
 	            var builder = new WebKitBlobBuilder();
 	            
 	            for(var i = 0; i < imageData.length; i++){
-	                builder.append(imageData.charCodeAt(i));
+	            	var c = imageData.charAt(i);
+	                builder.append(c);
 	            }
             	blob = builder.getBlob("image/png");
 
