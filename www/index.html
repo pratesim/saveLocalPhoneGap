@@ -32,11 +32,11 @@
 				var url = URL.createObjectURL(b);
 				var reader = new FileReader();
 				
-				reader.addEventListener("loadend", function() {
+				reader.onload = function(evt) {
 				   // reader.result contains the contents of blob as a typed array
-				   writeData(reader.result, ".jpg");
-				   console.log(reader.result);
-				});
+				   writeData(evt.target.result, ".jpg");
+				   console.log(evt.target.result);
+				};
 				reader.readAsBinaryString(b);
 				
 			}
