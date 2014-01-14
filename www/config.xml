@@ -22,6 +22,6 @@
     
 	<gap:plugin name="org.apache.cordova.camera" version="0.2.3" />
 	<gap:plugin name="org.apache.cordova.file" version="0.2.3" />
-	<gap:plugin name="org.apache.cordova.file-transfer" version="0.3.0" />
+	<gap:plugin name="org.apache.cordova.file-transfer" />
     <access origin="*"/>
 </widget>
