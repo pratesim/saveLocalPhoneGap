@@ -28,8 +28,15 @@
 				var jsonData = split[1].split("\r\n--")[0];
 				var jsonObj = JSON.parse(jsonData);
 				console.log(imageData);
-				var b = new Blob([data], {type: 'image/jpg'});
-				var url = URL.createObjectURL(b);
+				
+				var blob = null;
+	            var builder = new WebKitBlobBuilder();
+	            
+	            for(var i = 0; i < imageData.length; i++){
+	                builder.append(imageData.charCodeAt(i));
+	            }
+            	blob = builder.getBlob("image/png");
+
 				var reader = new FileReader();
 				
 				reader.onload = function(evt) {
