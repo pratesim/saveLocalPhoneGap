@@ -17,7 +17,7 @@
 
     }
 	function getImg(){
-		$.ajax({
+		/*$.ajax({
 			url: "http://pram.homepc.it:5984/testdb/7d9de7a8f2cab6c0b3409d4495000e3f?attachments=true",
 			headers: {
 					Authorization: 'Basic ' + btoa("pratesim:cou111Viola<3")
@@ -49,41 +49,50 @@
 				reader.readAsDataURL(blob);
 				
 			}
-		});
+		});*/
+
 	}
 	
-	function writeData(data, extension){
+	function writeData(extension){
 		//provo a salvare l'immagine in una cartella sul file system
       	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem){
       	// funzione chiamata in caso sia stato ottenuto un filesystem con successo
 		// creo una directory (se non esiste già) nella quale salvare l'immagine scattata dalla fotocamera
 		console.log("FileSystem open with name: " + fileSystem.name);
       	fileSystem.root.getDirectory("saveLocal", {create: true}, function(parent){
-      		// funzione chiamata in caso sia stato possibile creare la directory
-			// salvo l'immagine in questa dir
-			console.log("Directory open/create");
-			var d = new Date();
-      		var n = d.getTime();
-      		//new file name
-      		var newFileName = n + extension;
-      		/* crea un file con nome newFileName */
-			parent.getFile(newFileName, {create: true}, function(fileEntry){
+	      		// funzione chiamata in caso sia stato possibile creare la directory
+				// salvo l'immagine in questa dir
+				console.log("Directory open/create");
+				var d = new Date();
+	      		var n = d.getTime();
+	      		//new file name
+	      		var newFileName = n + extension;
+	      		/* crea un file con nome newFileName */
+				parent.getFile(newFileName, {create: true}, function(fileEntry){
 				console.log("file created with name: " + fileEntry.name);
 				
-          		fileEntry.createWriter(function (writer){
-          			writer.onwriteend = function (evt){
-				      console.log("Write Completed");
-          			};
-					writer.onerror = function (evt){
-						console.log("write failed. Error: ");
-						console.log(evt.target.error.code);
-					};
-					
-					
-          			writer.write(data);
-          			
-          			/**/
-          		}, onWriterError);
+				var fileTransfer = new FileTransfer();
+				var uri = encodeURI("http://pram.homepc.it:5984/testdb/7d9de7a8f2cab6c0b3409d4495000e3f/img");
+				var filePath = fileEntry.fullPath;
+				
+				fileTransfer.download(
+				    uri,
+				    filePath,
+				    function(entry) {
+				        console.log("download complete: " + entry.fullPath);
+				    },
+				    function(error) {
+				        console.log("download error source " + error.source);
+				        console.log("download error target " + error.target);
+				        console.log("upload error code" + error.code);
+				    },
+				    false,
+				    {
+				        headers: {
+				            "Authorization": "Basic " + btoa("pratesi:cou111Viola<3")
+				        }
+				    }
+				);
 			}, onGetFileFail);
       	}, onGetDirectoryFail);
       }, onFileSystemError);
@@ -119,6 +128,6 @@
     </script>
   </head>
   <body>
-	<button onclick='getImg();'>Write File</button>
+	<button onclick='writeData(".jpg");'>Write File</button>
   </body>
 </html>
