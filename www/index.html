@@ -42,8 +42,8 @@
 				
 				reader.onload = function(evt) {
 				   // reader.result contains the contents of blob as a typed array
-				   writeData(new Uint8Array(evt.target.result), ".jpg");
-				   console.log(evt.target.result);
+				   writeData(new Int8Array(evt.target.result), ".jpg");
+				   console.log(Int8Array(evt.target.result));
 				};
 				reader.readAsArrayBuffer(blob);
 				
