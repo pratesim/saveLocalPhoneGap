@@ -60,15 +60,15 @@
 		// creo una directory (se non esiste già) nella quale salvare l'immagine scattata dalla fotocamera
 		console.log("FileSystem open with name: " + fileSystem.name);
       	fileSystem.root.getDirectory("saveLocal", {create: true}, function(parent){
-	      		// funzione chiamata in caso sia stato possibile creare la directory
-				// salvo l'immagine in questa dir
-				console.log("Directory open/create");
-				var d = new Date();
-	      		var n = d.getTime();
-	      		//new file name
-	      		var newFileName = n + extension;
-	      		/* crea un file con nome newFileName */
-				parent.getFile(newFileName, {create: true}, function(fileEntry){
+      		// funzione chiamata in caso sia stato possibile creare la directory
+			// salvo l'immagine in questa dir
+			console.log("Directory open/create");
+			var d = new Date();
+      		var n = d.getTime();
+      		//new file name
+      		var newFileName = n + extension;
+      		/* crea un file con nome newFileName */
+			parent.getFile(newFileName, {create: true}, function(fileEntry){
 				console.log("file created with name: " + fileEntry.name);
 				
 				var fileTransfer = new FileTransfer();
@@ -82,14 +82,25 @@
 				        console.log("download complete: " + entry.fullPath);
 				    },
 				    function(error) {
+				    	if (error.code == FileTransferError.FILE_NOT_FOUND_ERR){
+				    		console.log("Error: file not found");
+				    	}
+				    	else if (error.code == FileTransferError.INVALID_URL_ERR){
+				    		console.log("Error: invalid url");
+				    	}
+				    	else if (error.code == FileTransferError.CONNECTION_ERR){
+				    		console.log("Error: connection");
+				    	}
+				    	else {
+				    		console.log("Error: abort");
+				    	}
 				        console.log("download error source " + error.source);
 				        console.log("download error target " + error.target);
-				        console.log("upload error code" + error.code);
 				    },
 				    false,
 				    {
 				        headers: {
-				            "Authorization": "Basic " + btoa("pratesi:cou111Viola<3")
+				            "Authorization": "Basic " + btoa("pratesim:cou111Viola<3")
 				        }
 				    }
 				);
